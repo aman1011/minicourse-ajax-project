@@ -35,7 +35,7 @@ function loadData() {
                 '<p>' + article.snippet + '</p></li>');
         }
     }).fail(function(e) {
-        $nytElem.text('NY Times was not able to display the articles');
+        $nytHeaderElem.text('NY Times was not able to display the articles');
     });
 
     return false;
