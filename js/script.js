@@ -22,7 +22,21 @@ function loadData() {
 
     $body.append('<img class="bgimg" src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '">');
 
-    return ;
+    // Your NYTimes AJAX request.
+    request_url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?query=" + city + "&sort=newest&apikey=cd70092e341c42d1b617931f450d744d";
+    $.getJSON(request_url, function(data) {
+        $nytHeaderElem.text('New York Times Articles about '+ city);
+        console.log('Reached here');
+        articles = data.response.docs;
+        for (var i = 0; i < articles.length; i++) {
+            var article = articles[i];
+            $nytElem.append('<li class="article">' + 
+                '<a href="' + article.web_url + '">' + article.headline.main + '</a>' + 
+                '<p>' + article.snippet + '</p></li>');
+        }
+    });
+
+    return false;
 };
 
 $('#form-container').submit(loadData);
