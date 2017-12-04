@@ -23,7 +23,7 @@ function loadData() {
     $body.append('<img class="bgimg" src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + address + '">');
 
     // Your NYTimes AJAX request.
-    request_url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?query=" + city + "&sort=newest&apikey=cd70092e341c42d1b617931f450d744d";
+    request_url = "https://ai.nytimes.com/svc/search/v2/articlesearch.json?query=" + city + "&sort=newest&apikey=cd70092e341c42d1b617931f450d744d";
     $.getJSON(request_url, function(data) {
         $nytHeaderElem.text('New York Times Articles about '+ city);
         console.log('Reached here');
@@ -34,6 +34,8 @@ function loadData() {
                 '<a href="' + article.web_url + '">' + article.headline.main + '</a>' + 
                 '<p>' + article.snippet + '</p></li>');
         }
+    }).fail(function(e) {
+        $nytElem.text('NY Times was not able to display the articles');
     });
 
     return false;
