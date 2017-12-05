@@ -26,7 +26,6 @@ function loadData() {
     request_url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?query=" + city + "&sort=newest&apikey=cd70092e341c42d1b617931f450d744d";
     $.getJSON(request_url, function(data) {
         $nytHeaderElem.text('New York Times Articles about '+ city);
-        console.log('Reached here');
         articles = data.response.docs;
         for (var i = 0; i < articles.length; i++) {
             var article = articles[i];
@@ -39,7 +38,11 @@ function loadData() {
     });
 
     // The wikipedia API url.
-    wiki_url = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + city + "&format=json&callback=wikicallback";
+    var wikiRequestTimeout = setTimeout(function(){
+        $wikiElem.text("failed to get wikipedia resources");
+    }, 8000);
+
+    wiki_url = "https://en.wiipedia.org/w/api.php?action=opensearch&search=" + city + "&format=json&callback=wikicallback";
     $.ajax({
         url: wiki_url, 
         dataType:'jsonp',
@@ -51,6 +54,8 @@ function loadData() {
                 var url = 'http://en.wikipedia.org/wiki/' + articleStr;
                 $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
             };
+
+            clearTimeout(wikiRequestTimeout);
         }
     });
 
